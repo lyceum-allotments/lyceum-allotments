@@ -1,0 +1,48 @@
+baseurl = "https://lyceum-allotments.github.io"
+languageCode = "en-us"
+title = "The Lyceum Allotments"
+theme = "rocktopus"
+GoogleAnalytics = "abcde"
+paginate = 4
+MetaDataFormat = "toml"
+[permalinks]
+    post = "/:year/:month/:title/"
+[taxonomies]
+    tags = "tags"
+    series = "series"
+[author]
+    name = "John Sharp"
+[params]
+	# supports either dark or light color scheme
+	colorscheme = "light"
+    # text for the header section
+    blogHeader = "<span style=\"font-size: 36px; \"><b>The Lyceum Allotments</b></span>"
+    tagline = "John Sharp's blog"
+    # the theme assumes this will be in your static/img directory
+    headerimg = "lyceum_allotments.png"
+    # used for the contact page (if you use it)
+    contactEmail = "me@mysite.com"
+    contactTwitter = "me"
+    disqusShortname = "jcsharp"
+[menu]
+    # Menu for the nav bar.
+    # Ideal count is 3 items, see demo site for an example
+
+    [[menu.nav]]
+    identifier = "home"
+    name       = "home"
+    url        = "/"
+    weight     = 0
+
+    [[menu.nav]]
+    identifier = "projects"
+    name       = "series"
+    url        = "/series"
+    weight     = 1
+
+    [[menu.nav]]
+    identifier = "code"
+    name       = "code"
+    url        = "https://github.com/lyceum-allotments/"
+    weight     = 2
+
