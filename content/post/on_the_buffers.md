@@ -1,6 +1,6 @@
 +++
-date = "2016-11-24T07:29:05Z"
-draft = true
+date = "2017-03-02T23:43:37Z"
+draft = false
 title = "Python and Pipes Part 4: On the Buffers"
 series = "Python and Pipes"
 +++
@@ -8,7 +8,7 @@ series = "Python and Pipes"
 In the last section we looked at sending a message through a pipe and everything
 worked great.  However there was a porblem, and this becomes apparent if we
 alter the sending program and make it run a little slower, perhaps by adding a
-short sleep inbetween sending each letter of the message, something like this:
+short sleep in between sending each letter of the message, something like this:
 
 {{< highlight python >}}
 import time
@@ -44,6 +44,7 @@ no buffering is done at all. Altering our slow write to have `buffering = 0`:
 
 <span id="write_to_pipe_buf_0">
 {{< highlight python >}}
+# write_to_pipe_buf_0.py
 import time
 message = "hello to a pipe\n"
 
@@ -67,6 +68,7 @@ name implies, as can be seen by running this program, which has our message
 broken down into lines, while reading from a pipe:
 
 {{< highlight python >}}
+# write_to_pipe_buf_1.py
 import time
 message = "hello\nto a\npipe\n"
 
@@ -83,6 +85,7 @@ sent across the pipe, see for example what effect a `buffering` of `4` has on
 this program:
 
 {{< highlight python >}}
+# write_to_pipe_buf_4.py
 import time
 message = "hello to a pipe\n"
 
@@ -104,8 +107,8 @@ The natural counterpart to a Python program that does unbuffered writing is one
 that does unbuffered reading, so let's write one now.
 
 Firstly, trying our previous program for reading from a pipe,
-[`read_from_pipe.py`](/2016/11/python-and-pipes-part-3-pipes-in-python#read_from_pipe),
-(by running [`write_pipe_buf_0.py`](#write_to_pipe_buf_0) in one virtual
+[`read_from_pipe.py`](/2017/03/python-and-pipes-part-3-pipes-in-python#read_from_pipe),
+(by running [`write_to_pipe_buf_0.py`](#write_to_pipe_buf_0) in one virtual
 terminal, and
 [`read_from_pipe.py`](/2016/11/python-and-pipes-part-3-pipes-in-python#read_from_pipe)
 in another)
@@ -141,7 +144,7 @@ that are printed,
 [`read`](https://docs.python.org/2/library/stdtypes.html#file.read) blocking
 until that many characters have been sent to the pipe.
 
-Another bit of behaviour that should be notice is that when the process reading
+Another bit of behaviour that should be noted is that when the process reading
 from the pipe closes before the message being written has finshed being written
 the writing process crashes, throwing an
 [`IOError`]((https://docs.python.org/2/library/stdtypes.html#file.read)
@@ -156,7 +159,7 @@ i.e. when the message has ended. In short, something like this:
 {{< highlight python >}}
 with open("my_pipe", "r") as f:
     print "have opened pipe, commencing reading...."
-    while 1:
+    while True:
         c = f.read(1)
         if c:
             print c,

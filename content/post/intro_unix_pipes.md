@@ -1,6 +1,6 @@
 +++
-date = "2016-11-17T20:58:11Z"
-draft = true
+date = "2017-03-02T23:41:37Z"
+draft = false
 title = "Python and Pipes Part 2: Introduction to Unix Pipes"
 series = "Python and Pipes"
 +++
@@ -31,7 +31,7 @@ prw-r--r-- 1 username username 0 Nov 17 21:10 my_pipe
 {{< / highlight >}}
 
 You can redirect the output of any program to `my_pipe` in just the same way as
-would redirect it to a file, a litle something like this:
+you would redirect it to a file, a litle something like this:
 
 {{< highlight c >}}
 echo "hello through a pipe" > my_pipe
@@ -46,12 +46,12 @@ cat my_pipe
 
 and you should see "hello through a pipe" printed onto the screen.
 
-Note also that the echo command blocked until you read from the pipe. As an
+Note also that the `echo` command blocked until you read from the pipe. As an
 experiment, try things the other way round; `cat my_pipe` will now block until
 you write something into the pipe with, say, `echo "hello through a pipe"`.
 
 Hopefully this short introduction will have illustrated to you how simple yet
 effective Unix pipes can be, named pipes look and behave in many ways just like
 a file and so make interprocess communication as simple as reading/writing from
-files. The [next section](/2016/11/pipes_in_python) will go on to discuss how these pipes can be used from
+files. The [next section](/2017/03/python-and-pipes-part-3-pipes-in-python) will go on to discuss how these pipes can be used from
 Python.

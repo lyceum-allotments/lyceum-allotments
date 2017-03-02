@@ -1,13 +1,13 @@
 +++
-date = "2017-02-24T21:14:38Z"
-draft = true
+date = "2017-03-02T23:46:37Z"
+draft = false
 title = "Python and Pipes Part 6: Multiple Subprocesses and Pipes"
-
+series = "Python and Pipes"
 +++
 
 In the [previous
-section](/2016/12/python-and-pipes-part-5-subprocesses-and-pipes/)
-we explored starting subprocesses and controlling their input and output via
+section](/2017/03/python-and-pipes-part-5-subprocesses-and-pipes/)
+we explored start a subprocess and controlling its input and output via
 pipes. In this section we'll do the same, but this time for two sub-processes.
 A use for this, and the original reason I first developed this, was for testing
 a client and server. Basically, I wanted a program to start up the client and
@@ -68,8 +68,10 @@ sure we poll and check two return codes rather than one:
 import subprocess
 
 # start both `proc_a.py` and `proc_b.py`
-proc_a = subprocess.Popen(["stdbuf", "-o0", "python2", "proc_a.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-proc_b = subprocess.Popen(["stdbuf", "-o0", "python2", "proc_b.py"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+proc_a = subprocess.Popen(["stdbuf", "-o0", "python2", "proc_a.py"], stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE)
+proc_b = subprocess.Popen(["stdbuf", "-o0", "python2", "proc_b.py"], stdin=subprocess.PIPE,
+    stdout=subprocess.PIPE)
 
 while True:
     # check if either sub-process has finished
@@ -90,7 +92,7 @@ to have to do something clever...
 Non-blocking Outputs: The Power of Threads
 ------------------------------------------
 
-We'll start with output. Are basic strategy is going to be read a line from a
+We'll start with output. Our basic strategy is going to be read a line from a
 subprocess and pass through to the mother process's `stdout`, prepended with an
 `A:` if it came from procedure `A` and a `B:` if it came from procedure `B`.
 However, there's a snag, and that snag is that the `read()` method of Python's
@@ -172,7 +174,7 @@ print it. How do we do that with threads?
 
 There is a Python module called
 [`Queue`](https://docs.python.org/2/library/queue.html#Queue.Queue) that
-implements a thread safe queue, one thread can put objects on a queue and
+implements a thread-safe queue, one thread can put objects on a queue and
 another thread can pop objects off, safe in the knowledge that these things are
 safe despite the fact that they may be happening simultaneously.
 
@@ -183,7 +185,7 @@ import Queue
 q = Queue.Queue()
 {{< / highlight >}}
 
-objects (in this case the variable `a`) placed on it with:
+objects (in this case the variable `a`) are placed on it with:
 
 {{< highlight python >}}
 a = 5
@@ -272,7 +274,7 @@ def read_output(pipe, q):
 line on Queue `q`"""
 
     while True:
-        l = pipe.read(1)
+        l = pipe.readline()
         q.put(l)
 
 {{< / highlight >}}
@@ -402,7 +404,7 @@ This case is actually a little simpler than the output case, since we don't have
 to make any communication back to the main thread.
 
 The target function of our input threads will look like what we had in
-[external_pipe_say_my_name_constant.py](/2016/12/python-and-pipes-part-5-subprocesses-and-pipes/),
+[external_pipe_say_my_name_constant.py](/2017/03/python-and-pipes-part-5-subprocesses-and-pipes#external_pipe_say_my_name_constant),
 i.e.:
 
 {{< highlight python >}}
@@ -416,7 +418,7 @@ writing this input straight into `write_pipe`"""
 
 where `write_pipe` will be the `stdin` of our processes `A` and `B`, and
 `in_pipe_name` will be the name of the external pipes in our file system,
-`proc_a_input` and `proc_b_input`, for procedure `A`, for example:
+`proc_a_input` and `proc_b_input`. For procedure `A`, for example:
 
 {{< highlight python >}}
 # start a thread to read input into procedure A

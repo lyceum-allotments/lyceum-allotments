@@ -1,8 +1,8 @@
 +++
-date = "2016-12-20T22:09:41Z"
-draft = true
+date = "2017-03-02T23:44:37Z"
+draft = false
 title = "Python and Pipes Part 5: Subprocesses and Pipes"
-
+series = "Python and Pipes"
 +++
 
 The Python [`subprocess`](https://docs.python.org/2/library/subprocess.html)
@@ -198,6 +198,7 @@ previously:
 
 in code this looks like: 
 
+<span id="external_pipe_say_my_name_constant">
 {{< highlight python >}}
 # external_pipe_say_my_name_constant.py
 import subprocess
@@ -213,6 +214,7 @@ with open("output_pipe", "w") as output_pipe:
         with open("input_pipe", "r") as input_pipe:
             proc.stdin.write(input_pipe.read())
 {{< / highlight >}}
+</span>
 
 to test this, we start `external_pipe_say_my_name_constant.py` in one virtual
 terminal, start reading from `output_pipe` with `cat output_pipe` and in a third
@@ -238,4 +240,4 @@ By now we've just about dealt with every permutation of putting stuff in pipes
 from various sources and passing it to a sub-process, we're ready for a final
 step, a piece de resistance, a program that spawns two subprocesses and allows
 the user to send input/read output from both. But that's for the [next
-section...](/2017/02/python-and-pipes-part-6-multiple-subprocesses-and-pipes/)
+section...](/2017/03/python-and-pipes-part-6-multiple-subprocesses-and-pipes/)
